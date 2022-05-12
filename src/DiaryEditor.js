@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const DiaryEditor = () => {
+  const AUTHOR_MIN = 1;
+  const CONTENT_MIN = 1;
+  const authorInput = useRef();
+  const contentInput = useRef();
+
   const [state, setState] = useState({
     author: "",
     content: "",
@@ -15,7 +20,15 @@ const DiaryEditor = () => {
   };
 
   const handleSubmit = () => {
-    console.log(state);
+    if (state.author.length < AUTHOR_MIN) {
+      authorInput.current.focus();
+      return;
+    }
+
+    if (state.content.length < CONTENT_MIN) {
+      contentInput.current.focus();
+      return;
+    }
     alert("save completed");
   };
 
@@ -24,6 +37,7 @@ const DiaryEditor = () => {
       <h2>Day.log</h2>
       <div>
         <input
+          ref={authorInput}
           name="author"
           value={state.author}
           onChange={handleStageChange}
@@ -31,6 +45,7 @@ const DiaryEditor = () => {
       </div>
       <div>
         <textArea
+          ref={contentInput}
           name="content"
           value={state.content}
           onChange={handleStageChange}
