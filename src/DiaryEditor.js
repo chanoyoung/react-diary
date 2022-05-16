@@ -44,7 +44,7 @@ const DiaryEditor = () => {
         />
       </div>
       <div>
-        <textArea
+        <textarea
           ref={contentInput}
           name="content"
           value={state.content}
@@ -53,12 +53,15 @@ const DiaryEditor = () => {
       </div>
       <div>
         <span>today.was.</span>
-        <select name="score" value={state.emotion} onChange={handleStageChange}>
+        <select
+          name="score"
+          defaultValue={3}
+          value={state.emotion}
+          onChange={handleStageChange}
+        >
           <option value={1}>bad</option>
           <option value={2}>not bad</option>
-          <option value={3} selected>
-            good
-          </option>
+          <option value={3}>good</option>
           <option value={4}>great</option>
           <option value={5}>awesome</option>
         </select>
