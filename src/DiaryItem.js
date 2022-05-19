@@ -1,4 +1,4 @@
-const DiaryItem = ({ id, author, content, score, createDate }) => {
+const DiaryItem = ({ id, author, content, score, createDate, onDelete }) => {
   const dayFeeling = ["", "bad", "not bad", "good", "great", "awesome"];
   return (
     <div className="DiaryItem">
@@ -12,6 +12,14 @@ const DiaryItem = ({ id, author, content, score, createDate }) => {
         </span>
       </div>
       <div className="content">{content}</div>
+      <button
+        onClick={() => {
+          if (window.confirm(`Do you want to delet journal #${id}?`))
+            onDelete(id);
+        }}
+      >
+        delete
+      </button>
     </div>
   );
 };
