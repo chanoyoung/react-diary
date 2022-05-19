@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const DiaryEditor = () => {
+const DiaryEditor = ({ onSave }) => {
   const AUTHOR_MIN = 1;
   const CONTENT_MIN = 1;
   const authorInput = useRef();
@@ -29,7 +29,14 @@ const DiaryEditor = () => {
       contentInput.current.focus();
       return;
     }
+
+    onSave(state);
     alert("save completed");
+    setState({
+      author: "",
+      content: "",
+      score: 3,
+    });
   };
 
   return (
