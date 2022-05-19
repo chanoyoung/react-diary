@@ -60,12 +60,7 @@ const DiaryEditor = ({ onSave }) => {
       </div>
       <div>
         <span>today.was.</span>
-        <select
-          name="score"
-          defaultValue={3}
-          value={state.emotion}
-          onChange={handleStageChange}
-        >
+        <select name="score" value={state.score} onChange={handleStageChange}>
           <option value={1}>bad</option>
           <option value={2}>not bad</option>
           <option value={3}>good</option>
