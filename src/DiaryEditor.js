@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const DiaryEditor = () => {
+const DiaryEditor = ({ onSave }) => {
   const AUTHOR_MIN = 1;
   const CONTENT_MIN = 1;
   const authorInput = useRef();
@@ -29,7 +29,14 @@ const DiaryEditor = () => {
       contentInput.current.focus();
       return;
     }
+
+    onSave(state);
     alert("save completed");
+    setState({
+      author: "",
+      content: "",
+      score: 3,
+    });
   };
 
   return (
@@ -53,12 +60,7 @@ const DiaryEditor = () => {
       </div>
       <div>
         <span>today.was.</span>
-        <select
-          name="score"
-          defaultValue={3}
-          value={state.emotion}
-          onChange={handleStageChange}
-        >
+        <select name="score" value={state.score} onChange={handleStageChange}>
           <option value={1}>bad</option>
           <option value={2}>not bad</option>
           <option value={3}>good</option>
