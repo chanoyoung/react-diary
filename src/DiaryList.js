@@ -2,7 +2,7 @@ import DiaryItem from "./DiaryItem";
 
 const DiaryList = ({ diaryList, onDelete, onEdit }) => {
   return (
-    <div className="diaryList">
+    <div className="DiaryList">
       <h2>Journal</h2>
       <h4>There are {diaryList.length} memories.</h4>
       <div>
