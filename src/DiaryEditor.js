@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 const DiaryEditor = ({ onSave }) => {
   const AUTHOR_MIN = 1;
@@ -75,4 +75,4 @@ const DiaryEditor = ({ onSave }) => {
   );
 };
 
-export default DiaryEditor;
+export default React.memo(DiaryEditor);

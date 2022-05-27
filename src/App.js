@@ -1,14 +1,14 @@
 import "./App.css";
+import { useState, useRef, useCallback } from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useState, useRef } from "react";
 
 function App() {
   const [data, setData] = useState([]);
 
   const dataId = useRef(0);
 
-  const onSave = ({ author, content, score }) => {
+  const onSave = useCallback(({ author, content, score }) => {
     const createDate = new Date().getTime();
     const newItem = {
       author,
@@ -18,8 +18,8 @@ function App() {
       id: dataId.current,
     };
     dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+    setData((data) => [newItem, ...data]);
+  }, []);
 
   const onDelete = (targetId) => {
     const newDiaryList = data.filter((it) => it.id !== targetId);
