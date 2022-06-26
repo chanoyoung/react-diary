@@ -1,10 +1,30 @@
 import "./App.css";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useReducer, useRef, useEffect, useMemo, useCallback } from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "INIT":
+      return action.data;
+    case "SAVE":
+      action.data.createDate = new Date().getTime();
+      return [action.data, ...state];
+    case "EDIT":
+      console.log(action.targetId);
+      console.log(action.newContent);
+      return state.map((it) =>
+        it.id === action.targetId ? { ...it, content: action.newContent } : it
+      );
+    case "DELETE":
+      return state.filter((it) => it.id !== action.targetId);
+    default:
+      return state;
+  }
+};
+
 function App() {
-  const [data, setData] = useState([]);
+  const [data, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
 
@@ -22,7 +42,7 @@ function App() {
         id: dataId.current++,
       };
     });
-    setData(initData);
+    dispatch({ type: "INIT", data: initData });
   };
 
   useEffect(() => {
@@ -30,28 +50,20 @@ function App() {
   }, []);
 
   const onSave = useCallback(({ author, content, score }) => {
-    const createDate = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      score,
-      createDate,
-      id: dataId.current,
-    };
+    dispatch({
+      type: "SAVE",
+      data: { author, content, score, id: dataId.current },
+    });
+
     dataId.current += 1;
-    setData((data) => [newItem, ...data]);
   }, []);
 
   const onDelete = useCallback((targetId) => {
-    setData((data) => data.filter((it) => it.id !== targetId));
+    dispatch({ type: "DELETE", targetId });
   }, []);
 
   const onEdit = useCallback((targetId, newContent) => {
-    setData((data) =>
-      data.map((it) =>
-        it.id === targetId ? { ...it, content: newContent } : it
-      )
-    );
+    dispatch({ type: "EDIT", targetId, newContent });
   }, []);
 
   const getDiaryAnalysis = useMemo(() => {
