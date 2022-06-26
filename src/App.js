@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 
@@ -33,9 +33,22 @@ function App() {
     );
   }, []);
 
+  const getDiaryAnalysis = useMemo(() => {
+    const goodCount = data.filter((it) => it.score >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]);
+
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+
   return (
     <div className="App">
       <DiaryEditor onSave={onSave} />
+      <div>All journals : {data.length}</div>
+      <div>Good journals : {goodCount}</div>
+      <div>Bad journals : {badCount}</div>
+      <div>Good journals ratio : {goodRatio}</div>
       <DiaryList diaryList={data} onDelete={onDelete} onEdit={onEdit} />
     </div>
   );
