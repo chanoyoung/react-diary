@@ -1,14 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { DiaryDispatchContext } from "./App";
 
-const DiaryItem = ({
-  id,
-  author,
-  content,
-  score,
-  createDate,
-  onDelete,
-  onEdit,
-}) => {
+const DiaryItem = ({ id, author, content, score, createDate }) => {
+  const { onDelete, onEdit } = useContext(DiaryDispatchContext);
+
   const dayFeeling = ["", "bad", "not bad", "good", "great", "awesome"];
   const [isEdit, setIsEdit] = useState(false);
   const [localContent, setLocalContent] = useState(content);
